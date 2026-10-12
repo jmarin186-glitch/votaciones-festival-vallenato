@@ -6,57 +6,244 @@
     <title>Festival Vallenato 2027</title>
     <meta name="description" content="Sistema de votación para el Festival Vallenato 2027" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
+      :root {
+        --bg-base: #020617;
+        --bg-soft: #0f172a;
+        --panel: rgba(15, 23, 42, 0.86);
+        --panel-strong: rgba(15, 23, 42, 0.96);
+        --panel-alt: #111827;
+        --red-700: #b91c1c;
+        --red-600: #dc2626;
+        --red-500: #ef4444;
+        --gold-400: #fbbf24;
+        --gold-300: #fcd34d;
+        --gold-200: #fde68a;
+        --amber-100: #fef3c7;
+        --slate-100: #f8fafc;
+        --slate-200: #e2e8f0;
+        --slate-300: #cbd5e1;
+        --slate-400: #94a3b8;
+        --slate-600: #475569;
+        --slate-800: #1e293b;
+        --shadow-soft: 0 18px 30px rgba(2, 6, 23, 0.45);
+      }
+
       html, body {
         margin: 0;
         height: 100%;
-        background: #020617;
-        color: #f8fafc;
-        font-family: Arial, Helvetica, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(220, 38, 38, 0.20), transparent 28%),
+          linear-gradient(180deg, #020617 0%, #0b1020 35%, #020617 100%);
+        color: var(--slate-100);
+        font-family: 'Inter', Arial, Helvetica, sans-serif;
       }
+
       body {
         display: flex;
         justify-content: center;
         align-items: flex-start;
       }
+
       .app-shell {
         width: min(100%, 420px);
         min-height: 100vh;
-        background: linear-gradient(180deg, #0b1020 0%, #09090f 32%, #020617 100%);
+        background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(9,9,15,1) 32%, rgba(2,6,23,1) 100%);
         border-left: 1px solid rgba(248, 113, 113, 0.2);
         border-right: 1px solid rgba(248, 113, 113, 0.2);
         position: relative;
         overflow: hidden;
+        box-shadow: var(--shadow-soft);
       }
+
       .banner {
-        background: linear-gradient(135deg, #7f1d1d 0%, #be123c 35%, #dc2626 75%, #7f1d1d 100%);
+        background: linear-gradient(135deg, #7f1d1d 0%, #be123c 30%, #dc2626 70%, #7f1d1d 100%);
         position: relative;
+        border-bottom: 1px solid rgba(254, 243, 199, 0.18);
       }
+
       .banner::after {
         content: "";
         position: absolute;
         inset: 0;
         background: radial-gradient(circle at top right, rgba(250, 204, 21, 0.35), transparent 38%);
       }
-      .tab-pill { white-space: nowrap; }
-      .candidate-card {
-        background: rgba(15, 23, 42, 0.78);
-        border: 1px solid rgba(190, 18, 60, 0.25);
+
+      .tab-pill {
+        white-space: nowrap;
+        letter-spacing: 0.02em;
+        transition: all 0.2s ease;
+        border: 1px solid rgba(255,255,255,0.05);
       }
-      .hidden-screen { display: none !important; }
+
+      .tab-pill:hover {
+        transform: translateY(-1px);
+      }
+
+      .candidate-card {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.82));
+        border: 1px solid rgba(190, 18, 60, 0.25);
+        border-radius: 22px;
+        padding: 12px;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .candidate-card:hover {
+        transform: translateY(-1px);
+        border-color: rgba(251, 191, 36, 0.5);
+        box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+      }
+
+      .vote-btn,
+      .primary-btn,
+      .secondary-btn,
+      .nav-btn,
+      #roleToggle,
+      #regBtn,
+      #saveUserBtn,
+      #confirmVoteBtn,
+      #addCandidateBtn,
+      #resetDataBtn {
+        transition: all 0.2s ease;
+      }
+
+      .vote-btn:hover,
+      .primary-btn:hover,
+      .secondary-btn:hover,
+      .nav-btn:hover,
+      #roleToggle:hover,
+      #regBtn:hover,
+      #saveUserBtn:hover,
+      #confirmVoteBtn:hover,
+      #addCandidateBtn:hover,
+      #resetDataBtn:hover {
+        filter: brightness(1.06);
+        transform: translateY(-1px);
+      }
+
+      .hidden-screen {
+        display: none !important;
+      }
+
       .toast {
         transform: translate(-50%, -140%);
         opacity: 0;
         transition: all 0.3s ease;
       }
+
       .toast.show {
         transform: translate(-50%, 0);
         opacity: 1;
       }
+
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      .button-glow { box-shadow: 0 12px 24px rgba(190, 18, 60, 0.35); }
+      .button-glow {
+        box-shadow: 0 12px 24px rgba(190, 18, 60, 0.35);
+      }
+
+      .screen {
+        background: linear-gradient(180deg, rgba(2,6,23,0.48), rgba(11,16,32,0.86));
+      }
+
+      .nav-btn {
+        min-width: 72px;
+      }
+
+      .nav-btn.active {
+        color: var(--gold-200) !important;
+      }
+
+      h1, h2, h3 {
+        font-family: 'Cormorant Garamond', serif;
+      }
+
+      #categoryTitle {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.2rem;
+        letter-spacing: 0.02em;
+      }
+
+      #resultsCategory,
+      #newName,
+      #newDesc,
+      #authName,
+      #authDoc,
+      #newCategory {
+        font-family: 'Inter', sans-serif;
+      }
+
+      .w-20.h-20 {
+        background: linear-gradient(135deg, rgba(185, 28, 28, 0.9), rgba(15, 23, 42, 0.95));
+        border: 1px solid rgba(251, 191, 36, 0.25);
+      }
+
+      .vote-btn {
+        background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+        border: 1px solid rgba(254, 243, 199, 0.18);
+      }
+
+      .tab.active {
+        background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%) !important;
+        color: #fef3c7 !important;
+        border-color: rgba(251, 191, 36, 0.28) !important;
+      }
+
+      .tab:not(.active) {
+        background: rgba(15, 23, 42, 0.8) !important;
+        color: #cbd5e1 !important;
+      }
+
+      #roleToggle, #regBtn {
+        background: rgba(13, 18, 30, 0.55);
+        border: 1px solid rgba(254, 243, 199, 0.18);
+        color: #fef3c7;
+      }
+
+      #saveUserBtn, #confirmVoteBtn, #addCandidateBtn {
+        background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+        color: white;
+      }
+
+      #resetDataBtn {
+        background: rgba(127, 29, 29, 0.3);
+        color: #fecaca;
+        border: 1px solid rgba(248, 113, 113, 0.35);
+      }
+
+      .rounded-2xl.bg-slate-900.border.border-slate-800.p-3,
+      .rounded-2xl.bg-slate-900.border.border-slate-800.p-3 > * {
+        border-color: rgba(248, 113, 113, 0.15) !important;
+      }
+
+      #toast {
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+      }
+
+      #modal-auth .w-full.max-w-sm,
+      #modal-vote .w-full.max-w-sm {
+        background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(15,23,42,0.94));
+        border: 1px solid rgba(239,68,68,0.28);
+        box-shadow: 0 24px 40px rgba(2,6,23,0.5);
+      }
+
+      #resultsCategory {
+        background: rgba(15,23,42,0.95);
+        border: 1px solid rgba(239,68,68,0.22);
+      }
+
+      #voteTarget {
+        background: rgba(69, 10, 10, 0.45);
+      }
+
+      .bg-[radial-gradient(circle_at_top,_rgba(190,18,60,0.22),_transparent_55%)] {
+        background: radial-gradient(circle at top, rgba(190,18,60,0.22), transparent 55%) , rgba(15,23,42,0.95) !important;
+      }
     </style>
   </head>
   <body>
@@ -309,15 +496,11 @@
       let activeTab = 'reyes';
       let selectedCandidate = null;
 
-      const screenVoter = document.getElementById('screen-voter');
-      const screenResults = document.getElementById('screen-results');
-      const screenCertificate = document.getElementById('screen-certificate');
-      const screenAdmin = document.getElementById('screen-admin');
       const screens = {
-        'screen-voter': screenVoter,
-        'screen-results': screenResults,
-        'screen-certificate': screenCertificate,
-        'screen-admin': screenAdmin,
+        'screen-voter': document.getElementById('screen-voter'),
+        'screen-results': document.getElementById('screen-results'),
+        'screen-certificate': document.getElementById('screen-certificate'),
+        'screen-admin': document.getElementById('screen-admin')
       };
 
       function saveState() {
@@ -581,7 +764,7 @@
       });
 
       document.getElementById('roleToggle').addEventListener('click', () => {
-        const isAdminVisible = !screenAdmin.classList.contains('hidden-screen');
+        const isAdminVisible = !screens['screen-admin'].classList.contains('hidden-screen');
         if (isAdminVisible) {
           switchScreen('screen-voter');
           document.getElementById('roleToggle').textContent = 'Panel Admin';
