@@ -1,49 +1,18 @@
 # votaciones-festival-vallenato
-Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil con gestión de candidatos
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Festival Vallenato 2027</title>
-    <meta name="description" content="Sistema de votación del Festival Vallenato 2027" />
+    <meta name="description" content="Sistema de votación para el Festival Vallenato 2027" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                50: '#fff1f2',
-                100: '#ffe4e6',
-                200: '#fecdd3',
-                300: '#fda4af',
-                400: '#fb7185',
-                500: '#f43f5e',
-                600: '#e11d48',
-                700: '#be123c',
-                800: '#9f1239',
-                900: '#881337'
-              },
-              gold: {
-                300: '#fde68a',
-                400: '#fbbf24',
-                500: '#f59e0b',
-                600: '#d97706'
-              }
-            },
-            boxShadow: {
-              glow: '0 16px 30px rgba(190, 18, 60, 0.35)'
-            }
-          }
-        }
-      };
-    </script>
     <style>
       html, body {
+        margin: 0;
         height: 100%;
-        background: #020817;
+        background: #020617;
         color: #f8fafc;
         font-family: Arial, Helvetica, sans-serif;
       }
@@ -55,16 +24,11 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
       .app-shell {
         width: min(100%, 420px);
         min-height: 100vh;
-        background: linear-gradient(180deg, #0b1020, #09090f 32%, #020617 100%);
-        border-left: 1px solid rgba(248, 113, 113, 0.25);
-        border-right: 1px solid rgba(248, 113, 113, 0.25);
+        background: linear-gradient(180deg, #0b1020 0%, #09090f 32%, #020617 100%);
+        border-left: 1px solid rgba(248, 113, 113, 0.2);
+        border-right: 1px solid rgba(248, 113, 113, 0.2);
         position: relative;
         overflow: hidden;
-      }
-      .topbar {
-        background: rgba(15, 23, 42, 0.8);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(190, 18, 60, 0.35);
       }
       .banner {
         background: linear-gradient(135deg, #7f1d1d 0%, #be123c 35%, #dc2626 75%, #7f1d1d 100%);
@@ -80,18 +44,8 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
         white-space: nowrap;
       }
       .candidate-card {
-        background: rgba(15,23,42,0.75);
-        border: 1px solid rgba(190,18,60,0.25);
-      }
-      .button-glow {
-        box-shadow: 0 12px 24px rgba(190, 18, 60, 0.35);
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+        background: rgba(15, 23, 42, 0.78);
+        border: 1px solid rgba(190, 18, 60, 0.25);
       }
       .hidden-screen {
         display: none !important;
@@ -104,13 +58,18 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
         transform: translate(-50%, 0);
         opacity: 1;
       }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .button-glow {
+        box-shadow: 0 12px 24px rgba(190, 18, 60, 0.35);
+      }
     </style>
   </head>
   <body>
     <div class="app-shell shadow-2xl">
-      <div class="topbar px-4 py-3 flex items-center justify-between text-xs text-slate-200">
+      <div class="px-4 py-3 flex items-center justify-between text-xs text-slate-200 border-b border-red-500/25 bg-slate-900/80 backdrop-blur-md">
         <div class="flex items-center gap-2">
-          <div class="w-9 h-9 rounded-xl bg-brand-700 flex items-center justify-center font-black text-amber-300 shadow-glow">57°</div>
+          <div class="w-9 h-9 rounded-xl bg-brand-700 flex items-center justify-center font-black text-amber-300 shadow-lg">57°</div>
           <div>
             <div class="font-bold">Festival Vallenato</div>
             <div class="text-[10px] text-slate-400">Votaciones 2027</div>
@@ -198,7 +157,7 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
           <button id="refreshBtn" class="w-9 h-9 rounded-xl bg-slate-800 text-slate-200 border border-slate-700"><i class="fa-solid fa-rotate-right"></i></button>
         </div>
         <div class="px-4 pb-3">
-          <div class="rounded-2xl bg-gradient-to-r from-brand-800 via-red-700 to-red-500 p-4 shadow-glow">
+          <div class="rounded-2xl bg-gradient-to-r from-brand-800 via-red-700 to-red-500 p-4 shadow-lg">
             <div class="text-[10px] uppercase tracking-widest text-amber-200">Total votos</div>
             <div id="totalVotes" class="text-3xl font-black mt-1">0</div>
           </div>
@@ -317,7 +276,7 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
             subtitle: 'Selecciona tu acordeonero favorito.',
             active: true,
             candidates: [
-              { id: 'r1', name: 'Alfonso “El Cocha” Molina', desc: 'Tradición, sentimiento y aborda finales agresivos.', votes: 42350, img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r1', name: 'Alfonso “El Cocha” Molina', desc: 'Tradición, sentimiento y buena salida en cada tema.', votes: 42350, img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80' },
               { id: 'r2', name: 'Sergio Luis Rodríguez', desc: 'Acordeón moderno con gran presencia escénica.', votes: 38910, img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80' },
               { id: 'r3', name: 'Javier Matta Correa', desc: 'Elegancia y fuerza en son, paseo y puya.', votes: 31200, img: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=300&q=80' }
             ]
@@ -353,8 +312,8 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
         }
       };
 
-      let appData = JSON.parse(localStorage.getItem('vertical_vote_data')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
-      let currentUser = JSON.parse(localStorage.getItem('vertical_user')) || { name: '', doc: '', votes: {} };
+      let appData = JSON.parse(localStorage.getItem('festival_vote_data')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+      let currentUser = JSON.parse(localStorage.getItem('festival_user')) || { name: '', doc: '', votes: {} };
       let activeTab = 'reyes';
       let selectedCandidate = null;
       let screenHistory = ['screen-voter'];
@@ -367,8 +326,8 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
       };
 
       function saveState() {
-        localStorage.setItem('vertical_vote_data', JSON.stringify(appData));
-        localStorage.setItem('vertical_user', JSON.stringify(currentUser));
+        localStorage.setItem('festival_vote_data', JSON.stringify(appData));
+        localStorage.setItem('festival_user', JSON.stringify(currentUser));
       }
 
       function showToast(msg, type = 'success') {
@@ -376,13 +335,9 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
         const icon = document.getElementById('toastIcon');
         const text = document.getElementById('toastText');
         text.textContent = msg;
-        if (type === 'success') {
-          icon.className = 'fa-solid fa-circle-check text-emerald-400';
-        } else if (type === 'error') {
-          icon.className = 'fa-solid fa-circle-xmark text-red-400';
-        } else {
-          icon.className = 'fa-solid fa-circle-info text-amber-400';
-        }
+        if (type === 'success') icon.className = 'fa-solid fa-circle-check text-emerald-400';
+        else if (type === 'error') icon.className = 'fa-solid fa-circle-xmark text-red-400';
+        else icon.className = 'fa-solid fa-circle-info text-amber-400';
         toast.classList.add('show');
         clearTimeout(showToast.timer);
         showToast.timer = setTimeout(() => toast.classList.remove('show'), 2600);
@@ -444,50 +399,11 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
               showToast('Ya votaste en esta categoría', 'error');
               return;
             }
-            selectedCandidate = {
-              id: btn.dataset.id,
-              name: btn.dataset.name
-            };
+            selectedCandidate = { id: btn.dataset.id, name: btn.dataset.name };
             document.getElementById('voteTarget').textContent = btn.dataset.name;
             document.getElementById('modal-vote').classList.remove('hidden');
           });
         });
-      }
-
-      function openAuth() {
-        document.getElementById('modal-auth').classList.remove('hidden');
-      }
-
-      function closeAuth() {
-        document.getElementById('modal-auth').classList.add('hidden');
-      }
-
-      function closeVoteModal() {
-        document.getElementById('modal-vote').classList.add('hidden');
-        selectedCandidate = null;
-      }
-
-      function handleUserSave() {
-        const name = document.getElementById('authName').value.trim();
-        const doc = document.getElementById('authDoc').value.trim();
-        if (!name || !doc) {
-          showToast('Completa nombre y documento', 'error');
-          return;
-        }
-        currentUser = { name, doc, votes: currentUser.votes || {} };
-        saveState();
-        updateUserLabel();
-        closeAuth();
-        showToast('Votante habilitado', 'success');
-      }
-
-      function updateUserLabel() {
-        const label = document.getElementById('userLabel');
-        if (currentUser.name) {
-          label.textContent = currentUser.name.split(' ')[0];
-        } else {
-          label.textContent = 'Invitado';
-        }
       }
 
       function renderTabs() {
@@ -505,234 +421,20 @@ Sistema de votaciones para el Festival Vallenato 2027 - Aplicación web móvil c
         renderCandidates();
       }
 
-      function confirmVote() {
-        if (!selectedCandidate) return;
-        const cat = appData.categories[activeTab];
-        const candidate = cat.candidates.find((c) => c.id === selectedCandidate.id);
-        if (!candidate) return;
-
-        candidate.votes += 1;
-        currentUser.votes[activeTab] = {
-          candidateId: candidate.id,
-          candidateName: candidate.name,
-          category: cat.title,
-          timestamp: new Date().toLocaleString('es-CO'),
-          hash: 'FV2027-' + Math.random().toString(36).slice(2, 8).toUpperCase() + '-' + Date.now().toString().slice(-4)
-        };
-        saveState();
-        closeVoteModal();
-        renderCandidates();
-        renderCertificate();
-        document.getElementById('certificateDot').classList.remove('hidden');
-        showToast('¡Voto emitido con éxito!', 'success');
+      function openAuth() {
+        document.getElementById('modal-auth').classList.remove('hidden');
       }
 
-      function renderResults() {
-        const category = document.getElementById('resultsCategory').value;
-        const cat = appData.categories[category];
-        const list = document.getElementById('resultsList');
-        const total = cat.candidates.reduce((sum, item) => sum + item.votes, 0) || 1;
-        const sorted = [...cat.candidates].sort((a, b) => b.votes - a.votes);
-        document.getElementById('totalVotes').textContent = Object.values(appData.categories).reduce((sum, c) => sum + c.candidates.reduce((s, i) => s + i.votes, 0), 0).toLocaleString('es-CO');
-
-        list.innerHTML = sorted.map((candidate, index) => {
-          const percent = ((candidate.votes / total) * 100).toFixed(1);
-          return `
-            <div class="rounded-2xl bg-slate-900 border border-slate-800 p-3">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <div class="flex items-center gap-2">
-                  <div class="w-5 h-5 rounded-full bg-brand-700 text-[10px] font-black text-amber-300 flex items-center justify-center">${index + 1}</div>
-                  <div class="text-xs font-bold text-slate-100">${candidate.name}</div>
-                </div>
-                <div class="text-[10px] font-black text-amber-300">${percent}%</div>
-              </div>
-              <div class="h-2.5 rounded-full bg-slate-950 overflow-hidden">
-                <div class="h-full rounded-full bg-gradient-to-r from-brand-700 to-amber-400" style="width:${percent}%"></div>
-              </div>
-              <div class="mt-2 flex items-center justify-between text-[10px] text-slate-400">
-                <span>${candidate.votes.toLocaleString('es-CO')} votos</span>
-                <span>${cat.title}</span>
-              </div>
-            </div>
-          `;
-        }).join('');
+      function closeAuth() {
+        document.getElementById('modal-auth').classList.add('hidden');
       }
 
-      function renderCertificate() {
-        const area = document.getElementById('certificateArea');
-        const votes = Object.keys(currentUser.votes || {}).length;
-        if (!votes) {
-          area.innerHTML = `
-            <div class="mt-4 rounded-2xl border border-slate-700 bg-slate-950 p-5 text-center">
-              <div class="w-12 h-12 rounded-full bg-slate-800 mx-auto flex items-center justify-center text-slate-400 text-xl">
-                <i class="fa-solid fa-file-circle-xmark"></i>
-              </div>
-              <div class="mt-3 text-sm font-bold text-slate-100">Aún no has emitido votos</div>
-              <div class="mt-1 text-[11px] text-slate-400">Tu comprobante aparecerá aquí después de participar en la votación.</div>
-              <button class="mt-4 w-full rounded-xl bg-brand-700 text-amber-300 font-bold py-2 text-xs" data-target="screen-voter">Ir a votar</button>
-            </div>
-          `;
-          area.querySelector('[data-target]')?.addEventListener('click', () => switchScreen('screen-voter'));
-          return;
-        }
-
-        const items = Object.entries(currentUser.votes).map(([key, item]) => `
-          <div class="rounded-xl border border-red-500/20 bg-slate-950 p-2.5 mb-2">
-            <div class="text-[10px] uppercase tracking-wider text-amber-300 font-bold">${item.category}</div>
-            <div class="mt-1 text-sm font-bold text-slate-100">${item.candidateName}</div>
-            <div class="mt-1 text-[10px] text-slate-400">${item.hash}</div>
-          </div>
-        `).join('');
-
-        area.innerHTML = `
-          <div class="rounded-2xl border border-amber-500/30 bg-slate-950 p-4">
-            <div class="text-[10px] text-slate-400">Votante</div>
-            <div class="mt-1 text-sm font-bold text-slate-100">${currentUser.name}</div>
-            <div class="mt-1 text-[10px] text-slate-400">ID: ***${String(currentUser.doc).slice(-4)}</div>
-            <div class="mt-4 space-y-2">${items}</div>
-            <div class="mt-4 bg-white p-3 rounded-2xl mx-auto w-28 h-28 flex items-center justify-center text-slate-950 text-5xl">
-              <i class="fa-solid fa-qrcode"></i>
-            </div>
-            <button class="mt-4 w-full rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black py-2 text-xs">Guardar comprobante</button>
-          </div>
-        `;
+      function closeVoteModal() {
+        document.getElementById('modal-vote').classList.add('hidden');
+        selectedCandidate = null;
       }
 
-      function renderAdminControls() {
-        const container = document.getElementById('adminCategoryControls');
-        container.innerHTML = Object.entries(appData.categories).map(([key, cat]) => `
-          <div class="flex items-center justify-between rounded-xl bg-slate-950 border border-slate-800 px-2.5 py-2">
-            <div class="text-[11px] text-slate-200">${cat.title}</div>
-            <button class="toggle-cat rounded-lg px-2 py-1 text-[10px] font-bold ${cat.active ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-800'}" data-cat="${key}">
-              ${cat.active ? 'ACTIVA' : 'PAUSADA'}
-            </button>
-          </div>
-        `).join('');
-
-        document.querySelectorAll('.toggle-cat').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const key = btn.dataset.cat;
-            appData.categories[key].active = !appData.categories[key].active;
-            saveState();
-            renderAdminControls();
-            renderCandidates();
-            showToast('Categoria actualizada', 'info');
-          });
-        });
-      }
-
-      function switchScreen(target) {
-        Object.entries(screens).forEach(([key, screen]) => {
-          screen.classList.toggle('hidden-screen', key !== target);
-        });
-
-        const navs = document.querySelectorAll('.nav-btn');
-        navs.forEach((nav) => {
-          const active = nav.dataset.target === target;
-          nav.classList.toggle('active', active);
-          nav.classList.toggle('text-amber-300', active);
-          nav.classList.toggle('text-slate-400', !active);
-          nav.classList.toggle('font-semibold', active);
-          nav.classList.toggle('font-medium', !active);
-        });
-
-        if (target === 'screen-voter') {
-          screenHistory.push(target);
-        }
-        updateBackButton();
-      }
-
-      function updateBackButton() {
-        const backBtn = document.getElementById('backBtn');
-        const valid = screenHistory.length > 1 && screenHistory[screenHistory.length - 1] !== 'screen-voter';
-        backBtn.classList.toggle('hidden', !valid);
-      }
-
-      function goBack() {
-        if (screenHistory.length > 1) {
-          screenHistory.pop();
-          const previous = screenHistory[screenHistory.length - 1] || 'screen-voter';
-          switchScreen(previous);
-        }
-      }
-
-      document.querySelectorAll('.tab').forEach((tab) => {
-        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-      });
-
-      document.getElementById('roleToggle').addEventListener('click', () => {
-        const adminScreen = document.getElementById('screen-admin');
-        const voterScreen = document.getElementById('screen-voter');
-        const isAdminVisible = !adminScreen.classList.contains('hidden-screen');
-        if (isAdminVisible) {
-          switchScreen('screen-voter');
-          document.getElementById('roleToggle').textContent = 'Panel Admin';
-        } else {
-          switchScreen('screen-admin');
-          document.getElementById('roleToggle').textContent = 'Volver';
-        }
-      });
-
-      document.getElementById('regBtn').addEventListener('click', openAuth);
-      document.getElementById('closeAuth').addEventListener('click', closeAuth);
-      document.getElementById('saveUserBtn').addEventListener('click', handleUserSave);
-      document.getElementById('cancelVoteBtn').addEventListener('click', closeVoteModal);
-      document.getElementById('confirmVoteBtn').addEventListener('click', confirmVote);
-      document.getElementById('refreshBtn').addEventListener('click', renderResults);
-      document.getElementById('resultsCategory').addEventListener('change', renderResults);
-      document.getElementById('exitAdmin').addEventListener('click', () => {
-        switchScreen('screen-voter');
-        document.getElementById('roleToggle').textContent = 'Panel Admin';
-      });
-      document.getElementById('addCandidateBtn').addEventListener('click', () => {
-        const name = document.getElementById('newName').value.trim();
-        const desc = document.getElementById('newDesc').value.trim();
-        const cat = document.getElementById('newCategory').value;
-        if (!name || !desc) {
-          showToast('Completa nombre y descripción', 'error');
-          return;
-        }
-        appData.categories[cat].candidates.push({
-          id: 'custom_' + Date.now(),
-          name,
-          desc,
-          votes: 0,
-          img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80'
-        });
-        saveState();
-        renderCandidates();
-        renderResults();
-        renderAdminControls();
-        document.getElementById('newName').value = '';
-        document.getElementById('newDesc').value = '';
-        showToast('Cantante agregado', 'success');
-      });
-      document.getElementById('resetDataBtn').addEventListener('click', () => {
-        localStorage.removeItem('vertical_vote_data');
-        localStorage.removeItem('vertical_user');
-        appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-        currentUser = { name: '', doc: '', votes: {} };
-        saveState();
-        updateUserLabel();
-        renderCandidates();
-        renderResults();
-        renderCertificate();
-        renderAdminControls();
-        showToast('Datos de prueba reiniciados', 'info');
-      });
-
-      document.getElementById('backBtn').addEventListener('click', goBack);
-
-      document.querySelectorAll('.nav-btn').forEach((btn) => {
-        btn.addEventListener('click', () => switchScreen(btn.dataset.target));
-      });
-
-      updateUserLabel();
-      renderTabs();
-      renderCandidates();
-      renderResults();
-      renderCertificate();
-      renderAdminControls();
-    </script>
-  </body>
-</html>
+      function handleUserSave() {
+        const name = document.getElementById('authName').value.trim();
+        const doc = document.getElementById('authDoc').value.trim`
+    
