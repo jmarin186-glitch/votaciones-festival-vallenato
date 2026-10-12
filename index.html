@@ -52,6 +52,7 @@
       .toast {
         transform: translate(-50%, -140%);
         opacity: 0;
+        transition: all 0.3s ease;
       }
       .toast.show {
         transform: translate(-50%, 0);
@@ -61,6 +62,13 @@
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       .button-glow {
         box-shadow: 0 12px 24px rgba(190, 18, 60, 0.35);
+      }
+      .back-btn-show {
+        animation: slideIn 0.3s ease;
+      }
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
       }
     </style>
   </head>
@@ -114,7 +122,11 @@
           </div>
         </div>
 
-        <div class="px-3 py-3 pb-20">
+        <div class="px-3 py-3 pb-20 relative">
+          <button id="backBtn" class="hidden mb-3 w-full rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-2 text-xs flex items-center justify-center gap-2 back-btn-show">
+            <i class="fa-solid fa-arrow-left"></i>
+            Retroceder
+          </button>
           <div class="flex items-center justify-between mb-3 px-1">
             <div>
               <div class="flex items-center gap-2 text-xs font-bold text-slate-100">
@@ -148,6 +160,10 @@
       </div>
 
       <div id="screen-results" class="screen hidden-screen pt-4 pb-20">
+        <button id="backBtnResults" class="hidden mx-4 mb-3 w-full rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-2 text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i>
+          Retroceder
+        </button>
         <div class="px-4 pb-2 flex items-center justify-between">
           <div>
             <div class="text-sm font-bold flex items-center gap-2"><i class="fa-solid fa-chart-simple text-amber-400"></i> Escrutinio</div>
@@ -173,6 +189,10 @@
       </div>
 
       <div id="screen-certificate" class="screen hidden-screen pt-4 pb-20 px-4">
+        <button id="backBtnCert" class="hidden mb-3 w-full rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-2 text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i>
+          Retroceder
+        </button>
         <div class="rounded-3xl border border-red-500/25 bg-[radial-gradient(circle_at_top,_rgba(190,18,60,0.22),_transparent_55%)] p-4 bg-slate-900">
           <div class="flex items-center justify-between pb-3 border-b border-red-500/20">
             <div>
@@ -186,6 +206,10 @@
       </div>
 
       <div id="screen-admin" class="screen hidden-screen pt-4 pb-20 px-4">
+        <button id="backBtnAdmin" class="hidden mb-3 w-full rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-2 text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i>
+          Retroceder
+        </button>
         <div class="rounded-2xl bg-slate-900 border border-red-500/20 p-3 mb-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -256,10 +280,6 @@
       </div>
     </div>
 
-    <button id="backBtn" class="fixed top-5 left-5 z-30 hidden w-9 h-9 rounded-full bg-slate-900/80 border border-red-500/30 text-white shadow-lg">
-      <i class="fa-solid fa-arrow-left"></i>
-    </button>
-
     <div id="toast" class="toast fixed left-1/2 bottom-24 z-50 bg-slate-900 border border-amber-500/25 rounded-xl px-3 py-2 text-[11px] text-slate-100 shadow-2xl">
       <div class="flex items-center gap-2">
         <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
@@ -275,9 +295,18 @@
             subtitle: 'Selecciona tu acordeonero favorito.',
             active: true,
             candidates: [
-              { id: 'r1', name: 'Alfonso "El Cocha" Molina', desc: 'Tradición, sentimiento y buena salida en cada tema.', votes: 42350, img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80' },
-              { id: 'r2', name: 'Sergio Luis Rodríguez', desc: 'Acordeón moderno con gran presencia escénica.', votes: 38910, img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80' },
-              { id: 'r3', name: 'Javier Matta Correa', desc: 'Elegancia y fuerza en son, paseo y puya.', votes: 31200, img: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=300&q=80' }
+              { id: 'r1', name: 'Silvestre Dangond', desc: 'El rey del vallenato moderno con gran presencia.', votes: 52350, img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r2', name: 'Carlos Vives', desc: 'Gran icono del vallenato con legado internacional.', votes: 48720, img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r3', name: 'Jorge Celedón', desc: 'Voz potente, tradición y gran conexión con el público.', votes: 47210, img: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r4', name: 'Diomedes Díaz', desc: 'Leyenda viva del canto vallenato y la emoción.', votes: 46800, img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r5', name: 'Peter Manjarrés', desc: 'Expresión auténtica y gran talento regional.', votes: 44400, img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r6', name: 'Rafael Orozco Maestre', desc: 'Ícono histórico del acordeón vallenato.', votes: 43800, img: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r7', name: 'Poncho Zuleta', desc: 'Legado, técnica y letras memorables.', votes: 43150, img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r8', name: 'Ever Vargas', desc: 'Acordeón con fuerza, tradición y estilo propio.', votes: 41200, img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r9', name: 'Jeancarlos Centeno', desc: 'Interpretación moderna con gran repertorio vallenato.', votes: 39860, img: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r10', name: 'Son Velásquez', desc: 'Gran estilo y recorrido dentro de la música vallenata.', votes: 39020, img: 'https://images.unsplash.com/photo-1516378988840-6f9df47c7377?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r11', name: 'Nel Dussán', desc: 'Talento joven y gran futuro en el vallenato.', votes: 38250, img: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=300&q=80' },
+              { id: 'r12', name: 'Iván Villazón', desc: 'Estilo único y enorme conexión con el folclor.', votes: 37600, img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=300&q=80' }
             ]
           },
           musica: {
@@ -569,6 +598,21 @@
         });
       }
 
+      function updateBackButton() {
+        document.getElementById('backBtn').classList.toggle('hidden', screenHistory.length <= 1 || screenHistory[screenHistory.length - 1] !== 'screen-voter');
+        document.getElementById('backBtnResults').classList.toggle('hidden', screenHistory.length <= 1 || screenHistory[screenHistory.length - 1] !== 'screen-results');
+        document.getElementById('backBtnCert').classList.toggle('hidden', screenHistory.length <= 1 || screenHistory[screenHistory.length - 1] !== 'screen-certificate');
+        document.getElementById('backBtnAdmin').classList.toggle('hidden', screenHistory.length <= 1 || screenHistory[screenHistory.length - 1] !== 'screen-admin');
+      }
+
+      function goBack() {
+        if (screenHistory.length > 1) {
+          screenHistory.pop();
+          const previous = screenHistory[screenHistory.length - 1] || 'screen-voter';
+          switchScreen(previous);
+        }
+      }
+
       function switchScreen(target) {
         Object.entries(screens).forEach(([key, screen]) => {
           screen.classList.toggle('hidden-screen', key !== target);
@@ -584,22 +628,10 @@
           nav.classList.toggle('font-medium', !active);
         });
 
-        if (target === 'screen-voter') screenHistory.push(target);
-        updateBackButton();
-      }
-
-      function updateBackButton() {
-        const backBtn = document.getElementById('backBtn');
-        const valid = screenHistory.length > 1 && screenHistory[screenHistory.length - 1] !== 'screen-voter';
-        backBtn.classList.toggle('hidden', !valid);
-      }
-
-      function goBack() {
-        if (screenHistory.length > 1) {
-          screenHistory.pop();
-          const previous = screenHistory[screenHistory.length - 1] || 'screen-voter';
-          switchScreen(previous);
+        if (target !== 'screen-voter' && !screenHistory.includes(target)) {
+          screenHistory.push(target);
         }
+        updateBackButton();
       }
 
       document.querySelectorAll('.tab').forEach((tab) => {
@@ -667,6 +699,9 @@
       });
 
       document.getElementById('backBtn').addEventListener('click', goBack);
+      document.getElementById('backBtnResults').addEventListener('click', goBack);
+      document.getElementById('backBtnCert').addEventListener('click', goBack);
+      document.getElementById('backBtnAdmin').addEventListener('click', goBack);
       document.querySelectorAll('.nav-btn').forEach((btn) => {
         btn.addEventListener('click', () => switchScreen(btn.dataset.target));
       });
